@@ -12,10 +12,10 @@ public class User {
     @GeneratedValue(strategy = GenerationType.AUTO)
     @Column(name = "id_user", nullable = false, unique = true)
     private Long id;
-    @Column(name = "email", length = 50)
-    private String email;
     @Column(name = "name", length = 50)
     private String name;
+    @Column(name = "email", length = 50)
+    private String email;
     @Column(name = "birthDate")
     private LocalDate birthDate;
     @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, fetch = FetchType.EAGER)
