@@ -5,6 +5,8 @@ import com.fundamentosplatzi.springboot.fundamentos.bean.MyBeanWithDependency;
 import com.fundamentosplatzi.springboot.fundamentos.bean.MyBeanWithProperties;
 import com.fundamentosplatzi.springboot.fundamentos.component.ComponentDependency;
 import com.fundamentosplatzi.springboot.fundamentos.pojo.UserPojo;
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.boot.CommandLineRunner;
@@ -13,7 +15,7 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 
 @SpringBootApplication
 public class FundamentosApplication implements CommandLineRunner {
-
+	private final Log LOGGER = LogFactory.getLog(FundamentosApplication.class);
 	private ComponentDependency componentDependency;
 	private MyBean myBean;
 	private MyBeanWithDependency myBeanWithDependency;
@@ -44,6 +46,12 @@ public class FundamentosApplication implements CommandLineRunner {
 		myBeanWithDependency.printWithDependency();
 		System.out.println(myBeanWithProperties.function());
 		System.out.println(userPojo.getEmail() + "-" + userPojo.getPassword());
+		try {
+			int valor = 10 / 0;
+			LOGGER.debug("El valor es: " + valor);
+		} catch (Exception e) {
+			LOGGER.error("Error al dividir 10 / 0" + e.getMessage());
+		}
 	}
 
 }
