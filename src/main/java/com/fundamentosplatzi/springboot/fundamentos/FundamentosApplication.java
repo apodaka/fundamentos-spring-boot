@@ -57,24 +57,28 @@ public class FundamentosApplication implements CommandLineRunner {
 	@Override
 	public void run(String... args) throws Exception{
 		// ejemplosAnteriores();
-		// SaveUsersInDb();
+		SaveUsersInDb();
 		// getInformationJplFromUser();
 		saveWithErrorTransactional();
 	}
 
 	private void saveWithErrorTransactional() {
-		User test1 = new User("test1Transactional", "test1Transactional@dominio.com", LocalDate.now());
-		User test2 = new User("test2Transactional", "test2Transactional@dominio.com", LocalDate.now());
-		User test3 = new User("test3Transactional", "test3Transactional@dominio.com", LocalDate.now());
-		User test4 = new User("test4Transactional", "test4Transactional@dominio.com", LocalDate.now());
+		try {
+			User test1 = new User("test1Transactional", "test1Transactional@dominio.com", LocalDate.now());
+			User test2 = new User("test2Transactional", "test2Transactional@dominio.com", LocalDate.now());
+			User test3 = new User("test3Transactional", "test1Transactional@dominio.com", LocalDate.now());
+			User test4 = new User("test4Transactional", "test4Transactional@dominio.com", LocalDate.now());
 
-		List<User> userList = Arrays.asList(test1, test2, test3, test4);
-		userService.saveTransactional(userList);
+			List<User> userList = Arrays.asList(test1, test2, test3, test4);
+			userService.saveTransactional(userList);
+		} catch (Exception e) {
+			LOGGER.error("Esto es un error dentro del método transaccional" + e);
+		}
+
 		userService
 			.getAllUsers()
 			.stream()
-			.forEach(user -> LOGGER.info("Usuario agregado en método transaccional: " + user));
-
+			.forEach(user -> LOGGER.info("usuarios dentro del método getAllUsers con anotación @Transaccional " + user));
 	}
 
 	private void getInformationJplFromUser() {

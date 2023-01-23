@@ -14,7 +14,7 @@ public class User {
     private Long id;
     @Column(name = "name", length = 50)
     private String name;
-    @Column(name = "email", length = 50)
+    @Column(name = "email", length = 50, unique = true)
     private String email;
     @Column(name = "birthDate")
     private LocalDate birthDate;
