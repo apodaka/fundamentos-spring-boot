@@ -78,6 +78,33 @@ public class FundamentosApplication implements CommandLineRunner {
 				.findByEmailAndName("maritza@gmail.com", "Maritza")
 				.orElseThrow(() -> new RuntimeException("Usuario no encontrado"))
 		);
+
+		userRepository
+			.findByNameLike("%u%")
+			.stream()
+			.forEach(user -> LOGGER.info("Usuarios con query method findByNameLike:" + user));
+
+		userRepository
+			.findByNameOrEmail("Maritza", "japodaca@gmail.com")
+			.stream()
+			.forEach(user -> LOGGER.info("Usuarios con query method findByNameOrEmail:" + user));
+
+		userRepository
+			.findByBirthDateBetween(
+				LocalDate.of(1992, 1, 1),
+				LocalDate.of(1994, 12, 31)
+			)
+			.stream()
+			.forEach(user -> LOGGER.info("Usuarios con el query método findByBirthDate" + user));
+
+		// Cuando se usa containing en un query method, no es necesario enviar
+		// el simbolo % que se utiliza en un like para encontrar palabras que contengan
+		// la cadena enviada por parámetro.
+		userRepository
+			.findByNameContainingOrderByIdDesc("usu")
+			.stream()
+			.forEach(user -> LOGGER.info("Usuarios con query method findByNameContainingOrderByIdDesc:" + user));
+
 	}
 
 	private void SaveUsersInDb() {
