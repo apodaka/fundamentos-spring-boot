@@ -7,6 +7,7 @@ import com.fundamentosplatzi.springboot.fundamentos.component.ComponentDependenc
 import com.fundamentosplatzi.springboot.fundamentos.entity.User;
 import com.fundamentosplatzi.springboot.fundamentos.pojo.UserPojo;
 import com.fundamentosplatzi.springboot.fundamentos.repository.UserRepository;
+import com.fundamentosplatzi.springboot.fundamentos.service.UserService;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -30,13 +31,15 @@ public class FundamentosApplication implements CommandLineRunner {
 	private MyBeanWithProperties myBeanWithProperties;
 	private UserPojo userPojo;
 	private UserRepository userRepository;
+	private UserService userService;
 	public FundamentosApplication(
 			@Qualifier("componentTwoImplement") ComponentDependency componentDependency,
 			MyBean myBean,
 			MyBeanWithDependency myBeanWithDependency,
 			MyBeanWithProperties myBeanWithProperties,
 			UserPojo userPojo,
-			UserRepository userRepository
+			UserRepository userRepository,
+			UserService userService
 	) {
 		this.componentDependency = componentDependency;
 		this.myBeanWithDependency = myBeanWithDependency;
@@ -44,6 +47,7 @@ public class FundamentosApplication implements CommandLineRunner {
 		this.userPojo = userPojo;
 		this.myBean = myBean;
 		this.userRepository = userRepository;
+		this.userService = userService;
 	}
 
 	public static void main(String[] args) {
@@ -53,8 +57,24 @@ public class FundamentosApplication implements CommandLineRunner {
 	@Override
 	public void run(String... args) throws Exception{
 		// ejemplosAnteriores();
-		SaveUsersInDb();
-		getInformationJplFromUser();
+		// SaveUsersInDb();
+		// getInformationJplFromUser();
+		saveWithErrorTransactional();
+	}
+
+	private void saveWithErrorTransactional() {
+		User test1 = new User("test1Transactional", "test1Transactional@dominio.com", LocalDate.now());
+		User test2 = new User("test2Transactional", "test2Transactional@dominio.com", LocalDate.now());
+		User test3 = new User("test3Transactional", "test3Transactional@dominio.com", LocalDate.now());
+		User test4 = new User("test4Transactional", "test4Transactional@dominio.com", LocalDate.now());
+
+		List<User> userList = Arrays.asList(test1, test2, test3, test4);
+		userService.saveTransactional(userList);
+		userService
+			.getAllUsers()
+			.stream()
+			.forEach(user -> LOGGER.info("Usuario agregado en método transaccional: " + user));
+
 	}
 
 	private void getInformationJplFromUser() {
