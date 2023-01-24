@@ -38,7 +38,7 @@ public class UserService {
     }
 
     public User update(User newUser, Long id) {
-        userRepository.findById(id)
+        return userRepository.findById(id)
             .map(
                 user -> {
                     user.setEmail(newUser.getEmail());
@@ -46,6 +46,6 @@ public class UserService {
                     user.setBirthDate(newUser.getBirthDate());
                     return userRepository.save(user);
                 }
-            );
+            ).get();
     }
 }

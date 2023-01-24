@@ -24,11 +24,13 @@ public class UserRestController {
     public UserRestController(
             GetUser getUser,
             CreateUser createUser,
-            UpdateUser updateUser
+            UpdateUser updateUser,
+            DeleteUser deleteUser
     ) {
         this.getUser = getUser;
         this.createUser = createUser;
         this.updateUser = updateUser;
+        this.deleteUser = deleteUser;
     }
 
     @GetMapping()
