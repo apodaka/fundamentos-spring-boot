@@ -61,8 +61,6 @@ public class UserRestController {
 
     @GetMapping("/pages")
     List<User> getUsersPages(@RequestParam int page,@RequestParam int size) {
-        return userRepository
-            .findAll(PageRequest.of(page, size))
-            .getContent();
+        return getUser.getUsersPage(PageRequest.of(page, size));
     }
 }
